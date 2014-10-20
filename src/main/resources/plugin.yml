@@ -1,0 +1,8 @@
+main: me.vemacs.friendslist.FriendsListBukkit
+name: FriendsListBukkit
+version: 0.1
+author: vemacs
+commands:
+  friend:
+    description: k
+    usage: /friend [add|remove|list|online]
