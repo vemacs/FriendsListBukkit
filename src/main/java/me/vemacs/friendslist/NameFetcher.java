@@ -18,7 +18,7 @@ public class NameFetcher {
         URLConnection connection;
         try {
             connection = new URL("https://api.mojang.com/user/profiles/"
-            + uuid.toString().replace("-", "").toLowerCase() + "/names"
+                    + uuid.toString().replace("-", "").toLowerCase() + "/names"
             ).openConnection();
             String text = new Scanner(connection.getInputStream()).useDelimiter("\\Z").next();
             List<String> list = new ArrayList<String>((JSONArray) parser.parse(text));

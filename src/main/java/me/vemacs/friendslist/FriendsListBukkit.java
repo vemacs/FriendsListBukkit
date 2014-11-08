@@ -9,6 +9,7 @@ import me.vemacs.friendslist.handlers.AddHandler;
 import me.vemacs.friendslist.handlers.LoginHandler;
 import me.vemacs.friendslist.handlers.LogoutHandler;
 import me.vemacs.friendslist.handlers.RemoveHandler;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -41,7 +42,7 @@ public class FriendsListBukkit extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        User user =  new FriendsUser(event.getPlayer().getUniqueId());
+        User user = new FriendsUser(event.getPlayer().getUniqueId());
         user.login();
         dataStore.put(event.getPlayer().getName(), user);
     }
@@ -54,7 +55,7 @@ public class FriendsListBukkit extends JavaPlugin implements Listener {
 
     @Override
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
-        if (! (sender instanceof Player)) return false;
+        if (!(sender instanceof Player)) return false;
         if (args.length < 1) return false;
         switch (args[0].toLowerCase()) {
             case "add":
@@ -82,9 +83,10 @@ public class FriendsListBukkit extends JavaPlugin implements Listener {
                     @Override
                     public void run() {
                         String base = "";
-                        Set<User> k = dataStore.get(sender.getName()).getFriends();
-                        for (User u : k) {
-                            base += UUIDUtils.fetchName(u.getUuid()) + " ";
+                        Map<User, Boolean> k = dataStore.get(sender.getName()).getFriends();
+                        for (Map.Entry<User, Boolean> e : k.entrySet()) {
+                            base += e.getValue() ? ChatColor.GREEN : ChatColor.RED +
+                                    UUIDUtils.fetchName(e.getKey().getUuid()) + " ";
                         }
                         sender.sendMessage(base);
                     }
